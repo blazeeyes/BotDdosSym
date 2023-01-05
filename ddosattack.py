@@ -179,7 +179,7 @@ while number != '0':
 		os.system("apt install ./google-chrome-stable_current_amd64.deb")
 		os.system("sudo systemctl restart grafana-server")
 		print("[O] Opening http://localhost:3000 ...\n")
-		os.system("google-chrome --no-sandbox http://localhost:3000/d/6_KsLxBmk/apache2?orgId=1&refresh=5s")
+		os.system("google-chrome --no-sandbox --disable-gpu http://localhost:3000/d/6_KsLxBmk/apache2?orgId=1&refresh=5s")
 		file = pathlib.Path("google-chrome-stable_current_amd64.deb")
 		if file.exists():
 			os.remove(file)
@@ -189,4 +189,4 @@ while number != '0':
 		print('\n [+] Good Bye ' + platform.uname()[1] + ' !\n')
 		quit()
 	else:
-		print("\n [X] Error !\n [!] Select this number: 1, 2, 3, 4, 5, 6 or 0\n")
+		print("\n [X] Error !\n [!] Select this number: 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B or 0\n")
