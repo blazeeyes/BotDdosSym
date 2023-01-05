@@ -1,3 +1,4 @@
+import logging
 import os
 import pathlib
 import platform
@@ -11,7 +12,8 @@ def clear():
 	windows = 'cls'
 	os.system([linux, windows][os.name == 'nt'])
 
-
+logger = logging.getLogger()
+logger.setLevel(logging.CRITICAL)
 number = 1
 data = ""
 while number != '0':
