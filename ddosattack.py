@@ -109,8 +109,13 @@ while number != '0':
 		print("\n [Installation monitoring ...\n")
 		path = os. getcwd()
 
+		# update system package
 		os.system("sudo apt update && sudo apt install wget curl")
+
+		# install wireshark
 		os.system("sudo apt-get install wireshark")
+
+		# install prometheus
 		os.system("tar -xvf prometheus-files.tar.gz")
 		os.system("sudo cp apache_exporter-*.linux-amd64/apache_exporter /usr/local/bin")
 		os.system("sudo chmod +x /usr/local/bin/apache_exporter")
@@ -126,18 +131,24 @@ while number != '0':
 		os.system("wget -O - https://packages.grafana.com/gpg.key | sudo apt-key add -")
 		os.system("sudo add-apt-repository deb https://packages.grafana.com/enterprise/deb stable main")
 		os.system("sudo apt-get update")
+
+		# install grafana-enterprise
 		os.system("sudo apt-get install grafana-enterprise")
 		os.system("sudo /bin/systemctl start grafana-server")
 		os.system("sudo apt-get update -y")
 		os.system("mv prometheus-2.41.0.linux-amd64 prometheus-files")
 		os.system("sudo useradd --no-create-home --shell /bin/false prometheus")
 		os.system("sudo mkdir /etc/prometheus")
+
+		# install dashboards
 		os.system("sudo mkdir /var/lib/grafana/dashboards")
 		dashboards = "sudo cp "+path+"/dashboards/apache_rev1.json /var/lib/grafana/dashboards"
 		os.system(dashboards)
 		dashboards = "sudo cp "+path+"/dashboards/apache_rev7.json /var/lib/grafana/dashboards"
 		os.system(dashboards)
 		os.system("sudo mkdir /var/lib/prometheus")
+
+		# install prometheus
 		os.system("sudo chown prometheus:prometheus /etc/prometheus")
 		os.system("sudo chown prometheus:prometheus /var/lib/prometheus")
 		prometheusfiles = "sudo cp "+path+"/prometheus-files/prometheus /usr/local/bin/"
@@ -157,10 +168,14 @@ while number != '0':
 		os.system(prometheus_yml)
 		prometheus_service = "sudo cp -r "+path+"/monitoring/prometheus.service /etc/systemd/system/"
 		os.system(prometheus_service)
+
+		# create apache_exporter
 		apache_exporter = "sudo cp -r "+path+"/monitoring/apache_exporter /etc/sysconfig/"
 		os.system(apache_exporter)
 		apache_exporter_service = "sudo cp -r "+path+"/monitoring/apache_exporter.service /etc/systemd/system/"
 		os.system(apache_exporter_service)
+
+		# install chrome browser
 		os.system("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb")
 		os.system("apt install ./google-chrome-stable_current_amd64.deb")
 		os.system("sudo systemctl restart grafana-server")
