@@ -1,4 +1,5 @@
 import os
+import pathlib
 import platform
 import time
 
@@ -131,6 +132,11 @@ while number != '0':
 		os.system("mv prometheus-2.41.0.linux-amd64 prometheus-files")
 		os.system("sudo useradd --no-create-home --shell /bin/false prometheus")
 		os.system("sudo mkdir /etc/prometheus")
+		os.system("sudo mkdir /var/lib/grafana/dashboards")
+		dashboards = "sudo cp "+path+"/dashboards/apache_rev1.json /var/lib/grafana/dashboards"
+		os.system(dashboards)
+		dashboards = "sudo cp "+path+"/dashboards/apache_rev7.json /var/lib/grafana/dashboards"
+		os.system(dashboards)
 		os.system("sudo mkdir /var/lib/prometheus")
 		os.system("sudo chown prometheus:prometheus /etc/prometheus")
 		os.system("sudo chown prometheus:prometheus /var/lib/prometheus")
@@ -155,7 +161,14 @@ while number != '0':
 		os.system(apache_exporter)
 		apache_exporter_service = "sudo cp -r "+path+"/monitoring/apache_exporter.service /etc/systemd/system/"
 		os.system(apache_exporter_service)
-		time.sleep(5)
+		os.system("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb")
+		os.system("apt install ./google-chrome-stable_current_amd64.deb")
+		os.system("sudo systemctl restart grafana-server")
+		print("[O] Opening http://localhost:3000 ...\n")
+		os.system("google-chrome --no-sandbox http://localhost:3000")
+		file = pathlib.Path("google-chrome-stable_current_amd64.deb")
+		if file.exists():
+			os.remove(file)
 		clear()
 		data = ""
 	elif number == 0:
