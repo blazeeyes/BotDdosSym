@@ -5,7 +5,6 @@ import logging, sys
 import pathlib as pathlib
 from distlib.compat import raw_input
 import os
-
 def a():
 	os.system("wireshark")
 def b():
@@ -21,7 +20,6 @@ logging.disable(sys.maxsize)
 number = 1
 data = ""
 os.environ['TERM'] = 'xterm'
-
 while number != '0':
 	data += ' ----------------------------\n'
 	if os.name == "nt":
