@@ -108,7 +108,6 @@ while number != '0':
 	elif number == 'B':
 		print("\n [Installation monitoring ...\n")
 		path = os. getcwd()
-
 		# update system package
 		os.system("sudo apt update && sudo apt install wget curl")
 
