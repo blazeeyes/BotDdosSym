@@ -1,21 +1,27 @@
-import logging
-import os
-import pathlib
 import platform
+import threading
 import time
-
+import logging, sys
+import pathlib as pathlib
 from distlib.compat import raw_input
+import os
 
-
+def a():
+	os.system("wireshark")
+def b():
+	os.system("xterm -e \"sudo python slowloris.py\"")
+def c():
+	os.system("xterm -e \"sudo python synFlooding.py\"")
 def clear():
 	linux = 'clear'
 	windows = 'cls'
 	os.system([linux, windows][os.name == 'nt'])
 
-logger = logging.getLogger()
-logger.setLevel(logging.CRITICAL)
+logging.disable(sys.maxsize)
 number = 1
 data = ""
+os.environ['TERM'] = 'xterm'
+
 while number != '0':
 	data += ' ----------------------------\n'
 	if os.name == "nt":
@@ -43,21 +49,21 @@ while number != '0':
 	number = input(" Number~# ")
 	if number == '1':
 		print("\n [***] Please wait ...")
-		os.system("service apache2 start")
+		os.system("sudo service apache2 start")
 		print(" [I] Apache2 Service has been Started !\n")
 		time.sleep(5)
 		clear()
 		data = ""
 	elif number == '2':
 		print('\n [***] Please wait ...')
-		os.system("service apache2 stop")
+		os.system("sudo service apache2 stop")
 		print(" [O] Apache2 Service has been Stoped !\n")
 		time.sleep(5)
 		clear()
 		data = ""
 	elif number == '3':
 		print('\n [***] Please wait ...')
-		os.system("service apach2 restart")
+		os.system("sudo service apach2 restart")
 		print(" [R] Apache2 Service has been ReStarted !\n")
 		time.sleep(5)
 		clear()
@@ -75,31 +81,32 @@ while number != '0':
 		os.system("ifconfig")
 		iface = raw_input("What interface to use (ie eth0) Press 'q' to stop precess ?  \n")
 		print("ettercap -T -i " + iface)
-		os.system("ettercap -T -i " + iface)
+		os.system("sudo ettercap -T -i " + iface)
 		clear()
 		data = ""
 	elif number == '6':
 		print("\n Scanner port target...\n")
-		ipAdress = raw_input("What Ip address to use ?  \n")
-		portRange = raw_input("What Range of port to scan ? \n")
+		ipAdress = raw_input("What Ip address to use ?  => ")
+		portRange = raw_input("What Range of port to scan ? =>")
 		print("nmap " + ipAdress + " --top-ports " + portRange)
 		os.system("nmap " + ipAdress + " --top-ports " + portRange)
 		data = ""
 	elif number == '7':
 		print("\n Scanner IP Lan...\n")
-		os.system("python ifconfig.py")
+		os.system("sudo python ifconfig.py")
 		data = ""
 	elif number == '8':
 		print("\n [SlowLoris Attack ...\n")
-		os.system("python slowloris.py")
-		time.sleep(5)
-		clear()
+		threading.Thread(target=a).start()
+		threading.Thread(target=b).start()
+		print("\n [SlowLoris Attack ...\n")
+		print("\033[H\033[J", end="")
 		data = ""
 	elif number == '9':
 		print("\n [ICMP flooding ...\n")
-		os.system("python synFlooding.py")
-		time.sleep(5)
-		clear()
+		threading.Thread(target=a).start()
+		threading.Thread(target=c).start()
+		print("\033[H\033[J", end="")
 		data = ""
 	elif number == 'A':
 		print("\n [Attarck Ettercap with analyzing Wireshark  ...\n")
@@ -108,53 +115,57 @@ while number != '0':
 		clear()
 		data = ""
 	elif number == 'B':
+
 		print("\n [Installation monitoring ...\n")
 		path = os. getcwd()
+
 		# update system package
-		os.system("sudo apt update && sudo apt install wget curl")
+		os.system("xterm -e \"sudo apt update && sudo apt install wget curl\"")
 
 		# install wireshark
-		os.system("sudo apt-get install wireshark")
+		os.system("xterm -e \"sudo apt-get install wireshark\"")
 
 		# install prometheus
-		os.system("tar -xvf prometheus-files.tar.gz")
-		os.system("sudo cp apache_exporter-*.linux-amd64/apache_exporter /usr/local/bin")
+		os.system("xterm -e \"tar -xvf prometheus-files.tar.gz\"")
+		os.system("xterm -e \"sudo cp apache_exporter-*.linux-amd64/apache_exporter /usr/local/bin\"")
 		os.system("sudo chmod +x /usr/local/bin/apache_exporter")
 		os.system("sudo groupadd --system prometheus")
 		os.system("sudo useradd -s /sbin/nologin --system -g prometheus prometheus")
-		os.system("sudo apt-get -y install daemonize")
+		os.system("xterm -e \"sudo apt-get -y install daemonize\"")
 		os.system("sudo systemctl daemon-reload")
 		os.system("sudo systemctl start apache_exporter.service")
 		os.system("sudo systemctl enable apache_exporter.service")
-		os.system("sudo /etc/init.d/apache_exporter start")
 		os.system("sudo systemctl restart prometheus")
-		os.system("sudo apt-get install apt-transport-https software-properties-common")
-		os.system("wget -O - https://packages.grafana.com/gpg.key | sudo apt-key add -")
-		os.system("sudo add-apt-repository deb https://packages.grafana.com/enterprise/deb stable main")
-		os.system("sudo apt-get update")
+		os.system("xterm -e \"sudo apt-get install apt-transport-https software-properties-common\"")
+		os.system("xterm -e \"wget -O - https://packages.grafana.com/gpg.key | sudo apt-key add -\"")
+		os.system("xterm -e \"sudo add-apt-repository deb https://packages.grafana.com/enterprise/deb stable main\"")
+		os.system("xterm -e \"sudo apt-get update\"")
 
 		# install grafana-enterprise
-		os.system("sudo apt-get install grafana-enterprise")
-		os.system("sudo /bin/systemctl start grafana-server")
-		os.system("sudo apt-get update -y")
-		os.system("mv prometheus-2.41.0.linux-amd64 prometheus-files")
+		os.system("xterm -e \"sudo apt-get install grafana-enterprise\"")
+		os.system("xterm -e \"sudo /bin/systemctl start grafana-server\"")
 		os.system("sudo useradd --no-create-home --shell /bin/false prometheus")
-		os.system("sudo mkdir /etc/prometheus")
+		folder = pathlib.Path("/etc/prometheus")
+		if not os.path.exists(folder):
+			os.system("sudo mkdir /etc/prometheus")
 
 		# install dashboards
-		os.system("sudo mkdir /var/lib/grafana/dashboards")
+		folder = pathlib.Path("/var/lib/grafana/dashboards")
+		if not os.path.exists(folder):
+			os.system("sudo mkdir /var/lib/grafana/dashboards")
 		dashboards = "sudo cp "+path+"/dashboards/apache_rev1.json /var/lib/grafana/dashboards"
 		os.system(dashboards)
-		dashboards = "sudo cp "+path+"/dashboards/apache_rev7.json /var/lib/grafana/dashboards"
-		os.system(dashboards)
-		os.system("sudo mkdir /var/lib/prometheus")
 
 		# install prometheus
+		folder = pathlib.Path("/var/lib/prometheus")
+		if not os.path.exists(folder):
+			os.system("sudo mkdir /var/lib/prometheus")
 		os.system("sudo chown prometheus:prometheus /etc/prometheus")
 		os.system("sudo chown prometheus:prometheus /var/lib/prometheus")
 		prometheusfiles = "sudo cp "+path+"/prometheus-files/prometheus /usr/local/bin/"
 		os.system(prometheusfiles)
 		promtool = "sudo cp "+path+"/prometheus-files/promtool /usr/local/bin/"
+		os.system(promtool)
 		os.system("sudo chown prometheus:prometheus /usr/local/bin/prometheus")
 		os.system("sudo chown prometheus:prometheus /usr/local/bin/promtool")
 		consoles = "sudo cp -r "+path+"/prometheus-files/consoles /etc/prometheus"
@@ -177,17 +188,16 @@ while number != '0':
 		os.system(apache_exporter_service)
 
 		# install chrome browser
-		os.system("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb")
-		os.system("apt install ./google-chrome-stable_current_amd64.deb")
-		os.system("sudo systemctl restart grafana-server")
+		os.system("xterm -e \"wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb\"")
+		os.system("xterm -e \"apt install ./google-chrome-stable_current_amd64.deb\"")
 		print("[O] Opening http://localhost:3000 ...\n")
-		os.system("google-chrome --no-sandbox --disable-gpu http://localhost:3000/d/6_KsLxBmk/apache2?orgId=1&refresh=5s")
+		os.system("google-chrome --no-sandbox http://localhost:3000/d/6_KsLxBmk/apache2?orgId=1&refresh=5s")
 		file = pathlib.Path("google-chrome-stable_current_amd64.deb")
 		if file.exists():
 			os.remove(file)
 		clear()
 		data = ""
-	elif number == 0:
+	elif number == '0':
 		print('\n [+] Good Bye ' + platform.uname()[1] + ' !\n')
 		quit()
 	else:
