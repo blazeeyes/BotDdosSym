@@ -180,7 +180,7 @@ while number != '0':
 		os.system("apt install ./google-chrome-stable_current_amd64.deb")
 		os.system("sudo systemctl restart grafana-server")
 		print("[O] Opening http://localhost:3000 ...\n")
-		os.system("google-chrome --no-sandbox http://localhost:3000")
+		os.system("google-chrome --no-sandbox http://localhost:3000/?orgId=1&search=open&query=folder:current")
 		file = pathlib.Path("google-chrome-stable_current_amd64.deb")
 		if file.exists():
 			os.remove(file)
