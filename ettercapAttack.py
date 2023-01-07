@@ -51,7 +51,7 @@ if "n" in start_sslstrip or "N" in start_sslstrip:
 else:
     start_sslstrip = True
 
-iface = raw_input("What interface to use (ie wlan0)?  \n")
+iface = raw_input("What interface to use (ie wlan0) ?  \n")
 session_name = raw_input("Enter session name (folder that will be created with all the log files) \n")
 gateway_ip = raw_input("Enter gateway IP to poison (leave blank to poison whole network \n")
 target_ip = raw_input("Enter target IP to poison (leave blank to poison whole network \n")
@@ -62,7 +62,7 @@ subprocess.Popen("mkdir " + session_dir, shell=True).wait()
 clean_iptables()
 
 accept_disclaimer = raw_input(
-    "Starting ettercap... \n\nIMPORTANT - USE 'q' to terminate so network gets re-arped!!! \nDo you understand?!?")
+    "Starting ettercap... \n\nIMPORTANT - USE 'q' to terminate so network gets re-arped!!! \nDo you understand ? => ")
 if "y" in accept_disclaimer or "Y" in accept_disclaimer:
     pass
 else:

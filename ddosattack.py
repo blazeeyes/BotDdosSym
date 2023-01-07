@@ -11,6 +11,17 @@ def b():
 	os.system("xterm -e \"sudo python slowloris.py\"")
 def c():
 	os.system("xterm -e \"sudo python synFlooding.py\"")
+def d():
+	os.system("xterm -e \"sudo wget https://inmon.com/products/sFlow-RT/sflow-rt.tar.gz\"")
+	os.system("xterm -e \"sudo tar -xvzf sflow-rt.tar.gz\"")
+	file = pathlib.Path("sflow-rt.tar.gz")
+	if file.exists():
+		os.remove(file)
+def e():
+	os.system("xterm -e \"sudo "+path+"/sflow-rt/start.sh\"")
+def f():
+	os.system("google-chrome --no-sandbox http://localhost:8008/app/ddos-blackhole/html/index.html?charts3=show")
+
 def clear():
 	linux = 'clear'
 	windows = 'cls'
@@ -20,6 +31,7 @@ logging.disable(sys.maxsize)
 number = 1
 data = ""
 os.environ['TERM'] = 'xterm'
+path = os. getcwd()
 while number != '0':
 	data += ' ----------------------------\n'
 	if os.name == "nt":
@@ -97,6 +109,7 @@ while number != '0':
 		print("\n [SlowLoris Attack ...\n")
 		threading.Thread(target=a).start()
 		threading.Thread(target=b).start()
+		threading.Thread(target=d).start()
 		print("\n [SlowLoris Attack ...\n")
 		print("\033[H\033[J", end="")
 		data = ""
@@ -104,6 +117,7 @@ while number != '0':
 		print("\n [ICMP flooding ...\n")
 		threading.Thread(target=a).start()
 		threading.Thread(target=c).start()
+		threading.Thread(target=d).start()
 		print("\033[H\033[J", end="")
 		data = ""
 	elif number == 'A':
@@ -113,16 +127,11 @@ while number != '0':
 		clear()
 		data = ""
 	elif number == 'B':
-
 		print("\n [Installation monitoring ...\n")
-		path = os. getcwd()
-
 		# update system package
 		os.system("xterm -e \"sudo apt update && sudo apt install wget curl\"")
-
 		# install wireshark
 		os.system("xterm -e \"sudo apt-get install wireshark\"")
-
 		# install prometheus
 		os.system("xterm -e \"tar -xvf prometheus-files.tar.gz\"")
 		os.system("xterm -e \"sudo cp apache_exporter-*.linux-amd64/apache_exporter /usr/local/bin\"")
@@ -138,7 +147,6 @@ while number != '0':
 		os.system("xterm -e \"wget -O - https://packages.grafana.com/gpg.key | sudo apt-key add -\"")
 		os.system("xterm -e \"sudo add-apt-repository deb https://packages.grafana.com/enterprise/deb stable main\"")
 		os.system("xterm -e \"sudo apt-get update\"")
-
 		# install grafana-enterprise
 		os.system("xterm -e \"sudo apt-get install grafana-enterprise\"")
 		os.system("xterm -e \"sudo /bin/systemctl start grafana-server\"")
