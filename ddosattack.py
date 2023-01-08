@@ -137,6 +137,9 @@ while number != '0':
 		print("\n [Installation monitoring ...\n")
 		# update system package
 		os.system("xterm -e \"sudo apt update && sudo apt install wget curl\"")
+		# install nodejs & npm
+		os.system("xterm -e \"sudo apt-get install nodejs\"")
+		os.system("xterm -e \"sudo apt-get install npm\"")
 		# install wireshark
 		os.system("xterm -e \"sudo apt-get install wireshark\"")
 		# install prometheus
