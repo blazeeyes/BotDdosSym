@@ -323,10 +323,61 @@ we can see any metric on dashboard during the attack Ddos (red line)
 ![img.png](image/img.png)
 
 
+## DDoS protection 
+```
+DDoS Protect is an open source denial of service mitigation tool that uses industry standard sFlow telemetry from routers
+to detect attacks and automatically deploy BGP remotely triggered blackhole (RTBH) and BGP Flowspec filters 
+to block attacks within seconds
+```
+![img.png](image/ddosProtectSflow.png)
+```
+DDoS Protect is a lightweight solution that uses standard telemetry and control (sFlow and BGP) capabilities 
+of routers to automatically block disruptive volumetric denial of service attacks.
 
+You can quickly evaluate the technology on your laptop or in a test lab. 
+The solution leverages standard features of modern routing hardware to scale easily to large high traffic networks.
+```
+## Getting Started
+```
+Try out sFlow-RT's real-time analytics by following the steps in this guide.
+```
+# Step 1: Install sFlow-RT
+```
+Follow the download and installation instructions for your platform.
+```
+# Step 2: Install applications
+```
+Start off by installing the browse-metrics and browse-flows applications:
+```
+```
+sudo /usr/local/sflow-rt/get-app.sh sflow-rt browse-metrics
+sudo /usr/local/sflow-rt/get-app.sh sflow-rt browse-flows
+```
 
+# Restart sFlow-RT to load the applications:
+```
+sudo systemctl restart sflow-rt
+```
+# Step 3: Access user interface
+```
+The user interface can be accessed using a web browser. Connect to HTTP port 8008 on the host running sFlow-RT, 
+for example http://localhost:8008 if you are running the software on your laptop/desktop.
+![img.png](img.png)
+The sFlow-RT Status page shows key metrics about the health and performance of sFlow-RT.
+```
+# Step 4: Configure / deploy agents
+```
+Agents describes how to configure sFlow in existing network devices and/or deploy agents to monitor hosts, 
+hypervisors, containers, Swarm and Kubernetes clusters. Use the sFlow-RT Status page to verify that sFlow 
+telemetry is being received.
 
-# BotDdos
-# BotDdos
-# BotDdosSym
-# BotDdosSym
+If you don't have immediate access to a network, Real-time network and system metrics as a service describes
+how to replay captured sFlow data to explore the capabilities of the software on your laptop. Alternatively, 
+sflow-rt/containerlab includes projects that emulate leaf and spine networks, EVPN, and DDoS mitigation, 
+that can be run on a laptop using Docker Desktop.
+```
+# Step 5: Explore data
+```
+Access the sFlow-RT user interface.
+```
+![img.png](image/interfaceApp.png)

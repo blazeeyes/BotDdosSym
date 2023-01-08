@@ -35,7 +35,9 @@ number = 1
 data = ""
 os.environ['TERM'] = 'xterm'
 path = os. getcwd()
+
 while number != '0':
+
 	data += ' ----------------------------\n'
 	if os.name == "nt":
 		print(' [!] Please run the script on Linux Machine !')
