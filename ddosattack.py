@@ -14,14 +14,17 @@ def c():
 def d():
 	os.system("xterm -e \"sudo wget https://inmon.com/products/sFlow-RT/sflow-rt.tar.gz\"")
 	os.system("xterm -e \"sudo tar -xvzf sflow-rt.tar.gz\"")
+	os.system("xterm -e \"sudo "+path+"/sflow-rt/get-app.sh sflow-rt browse-metrics\"")
+	os.system("xterm -e \"sudo "+path+"/sflow-rt/get-app.sh sflow-rt browse-flows\"")
+	os.system("xterm -e \"sudo "+path+"/sflow-rt/get-app.sh sflow-rt ddos-protect\"")
 	file = pathlib.Path("sflow-rt.tar.gz")
 	if file.exists():
 		os.remove(file)
 def e():
 	os.system("xterm -e \"sudo "+path+"/sflow-rt/start.sh\"")
+	os.system("xterm -e \"sudo systemctl restart sflow-rt\"")
 def f():
-	os.system("google-chrome --no-sandbox http://localhost:8008/app/ddos-blackhole/html/index.html?charts3=show")
-
+	os.system("google-chrome --no-sandbox http://localhost:8008")
 def clear():
 	linux = 'clear'
 	windows = 'cls'
@@ -54,6 +57,8 @@ while number != '0':
 	data += ' [9] ICMP flooding\n'
 	data += ' [A] Attack Ettercap with analyzing Wireshark\n'
 	data += ' [B] Installation Grafana, Prometheus, Apache Exporter\n'
+	data += ' [C] Launch service Remotely Triggered Black Hole\n'
+	data += ' [D] Stop DDOS Attack by Remotely Triggered Black Hole (RTBH) Routing\n'
 	data += ' [0] Exit\n'
 	print(data)
 	number = input(" Number~# ")
@@ -154,14 +159,12 @@ while number != '0':
 		folder = pathlib.Path("/etc/prometheus")
 		if not os.path.exists(folder):
 			os.system("sudo mkdir /etc/prometheus")
-
 		# install dashboards
 		folder = pathlib.Path("/var/lib/grafana/dashboards")
 		if not os.path.exists(folder):
 			os.system("sudo mkdir /var/lib/grafana/dashboards")
 		dashboards = "sudo cp "+path+"/dashboards/apache_rev1.json /var/lib/grafana/dashboards"
 		os.system(dashboards)
-
 		# install prometheus
 		folder = pathlib.Path("/var/lib/prometheus")
 		if not os.path.exists(folder):
@@ -186,13 +189,11 @@ while number != '0':
 		os.system(prometheus_yml)
 		prometheus_service = "sudo cp -r "+path+"/monitoring/prometheus.service /etc/systemd/system/"
 		os.system(prometheus_service)
-
 		# create apache_exporter
 		apache_exporter = "sudo cp -r "+path+"/monitoring/apache_exporter /etc/sysconfig/"
 		os.system(apache_exporter)
 		apache_exporter_service = "sudo cp -r "+path+"/monitoring/apache_exporter.service /etc/systemd/system/"
 		os.system(apache_exporter_service)
-
 		# install chrome browser
 		os.system("xterm -e \"wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb\"")
 		os.system("xterm -e \"apt install ./google-chrome-stable_current_amd64.deb\"")
@@ -201,6 +202,16 @@ while number != '0':
 		file = pathlib.Path("google-chrome-stable_current_amd64.deb")
 		if file.exists():
 			os.remove(file)
+		clear()
+		data = ""
+	elif number == 'C':
+		print("\n Launch service Remotely Triggered Black Hole  ...\n")
+		threading.Thread(target=e).start()
+		clear()
+		data = ""
+	elif number == 'D':
+		print("\n Stop DDOS Attack by Remotely Triggered Black Hole (RTBH) Routing  ...\n")
+		threading.Thread(target=f).start()
 		clear()
 		data = ""
 	elif number == '0':
