@@ -138,10 +138,10 @@ while number != '0':
 		# update system package
 		os.system("xterm -e \"sudo apt update && sudo apt install wget curl\"")
 		# install nodejs & npm
-		os.system("xterm -e \"sudo apt-get install nodejs\"")
-		os.system("xterm -e \"sudo apt-get install npm\"")
+		os.system("xterm -e \"sudo apt-get install -y nodejs\"")
+		os.system("xterm -e \"sudo apt-get install -y npm\"")
 		# install wireshark
-		os.system("xterm -e \"sudo apt-get install wireshark\"")
+		os.system("xterm -e \"sudo apt-get install -y wireshark\"")
 		# install prometheus
 		os.system("xterm -e \"tar -xvf prometheus-files.tar.gz\"")
 		os.system("xterm -e \"sudo cp apache_exporter-*.linux-amd64/apache_exporter /usr/local/bin\"")
@@ -153,12 +153,12 @@ while number != '0':
 		os.system("sudo systemctl start apache_exporter.service")
 		os.system("sudo systemctl enable apache_exporter.service")
 		os.system("sudo systemctl restart prometheus")
-		os.system("xterm -e \"sudo apt-get install apt-transport-https software-properties-common\"")
+		os.system("xterm -e \"sudo apt-get install -y apt-transport-https software-properties-common\"")
 		os.system("xterm -e \"wget -O - https://packages.grafana.com/gpg.key | sudo apt-key add -\"")
 		os.system("xterm -e \"sudo add-apt-repository deb https://packages.grafana.com/enterprise/deb stable main\"")
 		os.system("xterm -e \"sudo apt-get update\"")
 		# install grafana-enterprise
-		os.system("xterm -e \"sudo apt-get install grafana-enterprise\"")
+		os.system("xterm -e \"sudo apt-get install -y grafana-enterprise\"")
 		os.system("xterm -e \"sudo /bin/systemctl start grafana-server\"")
 		os.system("sudo useradd --no-create-home --shell /bin/false prometheus")
 		folder = pathlib.Path("/etc/prometheus")
